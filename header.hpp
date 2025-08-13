@@ -50,6 +50,12 @@ public:
     void emplace(const size_t pos, Args&&... args);
     void erase(const size_t pos);
     void erase(const size_t first, const size_t last);
+    void push_back(const T& value);
+    void push_back( T&& value );
+    template< class... Args >
+    void emplace_back( Args&&... args );
+    void pop_back();
+    void resize(size_t count);
 
     //Output
     void print() const;

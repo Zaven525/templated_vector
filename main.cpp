@@ -14,6 +14,10 @@ int main(){
     V.erase(3);
     V.erase(0, 2);
     V.print();
+    V.push_back(102);
+    V.emplace_back(103);
+    V.pop_back();
+    V.print();
 
     return 0;
 }

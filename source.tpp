@@ -205,7 +205,7 @@ void vector<T>::erase(const size_t pos) {
     for (size_t i = pos; i <= _size; i++) {
         _data[i] = std::move(_data[i+1]);
     }
-    _size--;
+    _data[--_size].~T();
 }
 
 template<typename T>
@@ -215,6 +215,33 @@ void vector<T>::erase(const size_t first, const size_t last) {
     }
 }
 
+template<typename T>
+void vector<T>::push_back(const T& value) {
+    _size++;
+    if (_size >= _capacity) reallocate(_size * 2);
+    _data[_size-1] = value;
+}
+
+template<typename T>
+void vector<T>::push_back(T&& value) {
+    _size++;
+    if (_size >= _capacity) reallocate(_size * 2);
+    _data[_size-1] = std::move(value);
+}
+
+template<typename T>
+template<class... Args >
+void vector<T>::emplace_back( Args&&... args ) {
+    _size++;
+    if(_size >= _capacity) reallocate(_size * 2);
+    new(&_data[_size-1]) T(std::forward<Args>(args)...);
+}
+
+template<typename T>
+void vector<T>::pop_back() {
+    if(_size == 0) return;
+    _data[--_size].~T();
+}
 
 //Output
 template<typename T>
