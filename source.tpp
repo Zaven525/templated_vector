@@ -287,28 +287,11 @@ bool operator!=(const vector<U>& lhs, const vector<U>& rhs) {
     return !(lhs == rhs);
 }
 
-template<typename U>
-bool operator<(const vector<U>& lhs, const vector<U>& rhs) {
-    if (lhs._size != rhs._size) return false;
-    for (size_t i = 0; i < lhs._size; i++) {
-        if (lhs._data[i] >= rhs._data[i]) return false;
-    }
-    return true;
-}
-
-template<typename U>
-bool operator<=(const vector<U>& lhs, const vector<U>& rhs) {
-    if (lhs._size != rhs._size) return false;
-    for (size_t i = 0; i < lhs._size; i++) {
-        if (lhs._data[i] > rhs._data[i]) return false;
-    }
-    return true;
-}
 
 template<typename U>
 bool operator>(const vector<U>& lhs, const vector<U>& rhs) {
-    size_t min_size = lhs._size > rhs._size ? lhs._size : ths._size;
-    for (size_t i = 0; i < _size; i++) {
+    size_t min_size = lhs._size > rhs._size ? lhs._size : rhs._size;
+    for (size_t i = 0; i < min_size; i++) {
         if (lhs[i] > rhs[i]) return true;
         if (lhs[i] < rhs[i]) return false;
     }
