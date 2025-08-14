@@ -58,6 +58,26 @@ public:
     void resize(size_t count);
     void resize( size_t count, const T& value );
     
+    //Non-member
+    template<typename U>
+    friend bool operator==(const vector<U>& lhs, const vector<U>& rhs);
+    
+    template<typename U>
+    friend bool operator!=(const vector<U>& lhs, const vector<U>& rhs);
+
+    template<typename U>
+    friend bool operator<(const vector<U>& lhs, const vector<U>& rhs);
+
+    template<typename U>
+    friend bool operator<=(const vector<U>& lhs, const vector<U>& rhs);
+
+    template<typename U>
+    friend bool operator>(const vector<U>& lhs, const vector<U>& rhs);
+
+    template<typename U>
+    friend bool operator>=(const vector<U>& lhs, const vector<U>& rhs);
+
+    
     //Output
     void print() const;
 };

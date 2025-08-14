@@ -22,5 +22,13 @@ int main(){
     V2.resize(12, 5);
     V2.print();
 
+    vector<int> lv(5), rv(5);
+    lv.insert(0, {2, 2, 3, 4, 5});
+    rv.insert(0, {1, 2, 3, 4, 5});
+    lv.print();
+    rv.print();
+    std::cout << (lv > rv) << std::endl;
+
+
     return 0;
 }
