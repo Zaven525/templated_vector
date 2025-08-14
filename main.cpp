@@ -1,5 +1,5 @@
 #include "header.hpp"
-
+#include <string>
 int main(){
     vector<int> V;
     V.reserve(10);
@@ -17,7 +17,10 @@ int main(){
     V.push_back(102);
     V.emplace_back(103);
     V.pop_back();
-    V.print();
+    vector<int> V2(10);
+    V2.push_back(2);
+    V2.resize(12, 5);
+    V2.print();
 
     return 0;
 }

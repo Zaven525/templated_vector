@@ -56,7 +56,8 @@ public:
     void emplace_back( Args&&... args );
     void pop_back();
     void resize(size_t count);
-
+    void resize( size_t count, const T& value );
+    
     //Output
     void print() const;
 };

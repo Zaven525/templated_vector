@@ -1,5 +1,5 @@
 #include <utility>
-
+#include "header.hpp"
 template<typename T>
 void vector<T>::reallocate(size_t capacity) {
     T* tmp = new T[capacity];
@@ -15,7 +15,7 @@ template<typename T>
 vector<T>::vector() : _data(nullptr), _size(0), _capacity(0) {}
 
 template<typename T>
-vector<T>::vector(size_t size) : _data(new T[size]), _size(size), _capacity(size) {}
+vector<T>::vector(size_t size) : _data(new T[size]), _size(), _capacity(size) {}
 
 template<typename T>
 vector<T>::vector(const vector& other) : _size(other._size), _capacity(other._capacity) {
@@ -241,6 +241,36 @@ template<typename T>
 void vector<T>::pop_back() {
     if(_size == 0) return;
     _data[--_size].~T();
+}
+
+template<typename T>
+void vector<T>::resize(size_t count) {
+    if (count > _capacity) { reallocate(count * 2); }
+    if (count > _size) {
+        while (_size < count) {
+            new(&_data[_size++]) T(0);
+        }
+    }
+    else if(count < _size) {
+        while (_size > count) {
+            _data[--_size].~T();
+        }
+    }
+}
+
+template<typename T>
+void vector<T>::resize(size_t count, const T& value) {
+    if (count > _capacity) { reallocate(count * 2); }
+    if (count > _size) {
+        while (_size < count) {
+            new(&_data[_size++]) T(value);
+        }
+    }
+    else if(count < _size) {
+        while (_size > count) {
+            _data[--_size].~T();
+        }
+    }
 }
 
 //Output
