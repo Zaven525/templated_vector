@@ -13,9 +13,9 @@ private:
 
 public:
     vector();
-    vector(size_t size);
-    vector(const vector& other);
-    vector(vector&& other) noexcept;
+    explicit vector(size_t size);
+    explicit vector(const vector& other);
+    explicit vector(vector&& other) noexcept;
     vector<T>& operator=(const vector& other);
     vector<T>& operator=(vector&& other) noexcept;
     ~vector();

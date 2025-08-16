@@ -15,7 +15,7 @@ template<typename T>
 vector<T>::vector() : _data(nullptr), _size(0), _capacity(0) {}
 
 template<typename T>
-vector<T>::vector(size_t size) : _data(new T[size]), _size(), _capacity(size) {}
+vector<T>::vector(size_t size) : _data(new T[size]), _size(), _capacity(size) {};
 
 template<typename T>
 vector<T>::vector(const vector& other) : _size(other._size), _capacity(other._capacity) {
