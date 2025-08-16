@@ -1,3 +1,4 @@
+//Modifiers
 #include <utility>
 #include "header.hpp"
 template<typename T>
@@ -15,7 +16,15 @@ template<typename T>
 vector<T>::vector() : _data(nullptr), _size(0), _capacity(0) {}
 
 template<typename T>
-vector<T>::vector(size_t size) : _data(new T[size]), _size(), _capacity(size) {};
+vector<T>::vector(size_t size) : _data(new T[size]), _size(size), _capacity(size) {};
+
+template<typename T>
+vector<T>::vector(size_t count, const T& value) : vector(count){
+    for (size_t i = 0; i < count; i++) {
+        _data[i] = value;
+    }
+}
+
 
 template<typename T>
 vector<T>::vector(const vector& other) : _size(other._size), _capacity(other._capacity) {
@@ -86,33 +95,43 @@ const T& vector<T>::at(size_t index) const {
 
 template<typename T>
 T& vector<T>::operator[](size_t index) {
-    if (index >= _size) throw std::out_of_range("Index out of range");
     return _data[index];
 }
 
 template<typename T>
 const T& vector<T>::operator[](size_t index) const {
-    if (index >= _size) throw std::out_of_range("Index out of range");
     return _data[index];
 }
 
 template<typename T>
-T& vector<T>::first() { return _size > 0 ? _data[0] : nullptr; }
+T& vector<T>::first() { 
+    if (_size > 0) return _data[0];
+    else throw std::out_of_range("index out of range");
+}
 
 template<typename T>
-const T& vector<T>::first() const { return _size > 0 ? _data[0] : nullptr; }
+const T& vector<T>::first() const { 
+    if (_size > 0) return _data[0];
+    else throw std::out_of_range("index out of range");
+}
 
 template<typename T>
-T& vector<T>::last() { return _size > 0 ? _data[_size - 1] : nullptr; }
+T& vector<T>::last() { 
+    if (_size > 0) return _data[_size - 1];
+    else throw std::out_of_range("index out of range");
+}
 
 template<typename T>
-const T& vector<T>::last() const {return _size > 0 ? _data[_size - 1] : nullptr; }
+const T& vector<T>::last() const {
+    if (_size > 0) return _data[_size - 1];
+    else throw std::out_of_range("index out of range");
+}
 
 template<typename T>
-T* vector<T>::data() { return _data; }
+T* vector<T>::data() noexcept { return _data; }
 
 template<typename T>
-const T* vector<T>::data() const { return _data; }
+const T* vector<T>::data() const noexcept { return _data; }
 
 
 //size
@@ -147,8 +166,7 @@ void vector<T>::clear() noexcept {
 template<typename T>
 void vector<T>::insert(const size_t pos, const T& value) {
     if (pos > _size) return;
-    _size++;
-    if (_size > _capacity) { reallocate(_size * 2); }
+    if (_size + 1 >= _capacity) { reallocate(_capacity == 0 ? 1 : _capacity * 2); }
 
     for (size_t i = _size; i > pos; i--) {
         _data[i] = _data[i-1];
@@ -159,8 +177,7 @@ void vector<T>::insert(const size_t pos, const T& value) {
 template<typename T>
 void vector<T>::insert( const size_t pos, T&& value ) {
     if (pos > _size) return;
-    _size++;
-    if (_size > _capacity) { reallocate(_size * 2); }
+    if (_size + 1 >= _capacity) { reallocate(_capacity == 0 ? 1 : _capacity * 2); }
 
     for (size_t i = _size; i > pos; i--) {
         _data[i] = std::move(_data[i-1]);
@@ -188,8 +205,8 @@ template<typename T>
 template< class... Args >
 void vector<T>::emplace(const size_t pos, Args&&... args) {
     if (pos > _size) return;
-    _size++;
-    if (_size > _capacity) { reallocate(_size * 2); }
+    if (_size + 1 >= _capacity) { reallocate(_capacity == 0 ? 1 : _capacity * 2); }
+
 
     for (size_t i = _size; i > pos; i--) {
         _data[i] = std::move(_data[i-1]);
@@ -217,23 +234,20 @@ void vector<T>::erase(const size_t first, const size_t last) {
 
 template<typename T>
 void vector<T>::push_back(const T& value) {
-    _size++;
-    if (_size >= _capacity) reallocate(_size * 2);
+    if (_size + 1 >= _capacity) { reallocate(_capacity == 0 ? 1 : _capacity * 2); }
     _data[_size-1] = value;
 }
 
 template<typename T>
 void vector<T>::push_back(T&& value) {
-    _size++;
-    if (_size >= _capacity) reallocate(_size * 2);
+    if (_size + 1 >= _capacity) { reallocate(_capacity == 0 ? 1 : _capacity * 2); }
     _data[_size-1] = std::move(value);
 }
 
 template<typename T>
 template<class... Args >
 void vector<T>::emplace_back( Args&&... args ) {
-    _size++;
-    if(_size >= _capacity) reallocate(_size * 2);
+    if (_size + 1 >= _capacity) { reallocate(_capacity == 0 ? 1 : _capacity * 2); }
     new(&_data[_size-1]) T(std::forward<Args>(args)...);
 }
 
@@ -271,6 +285,13 @@ void vector<T>::resize(size_t count, const T& value) {
             _data[--_size].~T();
         }
     }
+}
+
+template<typename T>
+void vector<T>::swap(vector& other) {
+    std::swap(_data, other._data);
+    std::swap(_size, other._size);
+    std::swap(_capacity, other._capacity);
 }
 
 template<typename U>

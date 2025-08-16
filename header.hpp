@@ -14,6 +14,7 @@ private:
 public:
     vector();
     explicit vector(size_t size);
+    explicit vector(size_t count, const T& value);
     explicit vector(const vector& other);
     explicit vector(vector&& other) noexcept;
     vector<T>& operator=(const vector& other);
@@ -29,8 +30,8 @@ public:
     const T& first() const;
     T& last();
     const T& last() const;
-    T* data();
-    const T* data() const;
+    T* data() noexcept;
+    const T* data() const noexcept;
 
     //Capacity
     bool empty() const noexcept;
@@ -57,6 +58,7 @@ public:
     void pop_back();
     void resize(size_t count);
     void resize( size_t count, const T& value );
+    void swap (vector& other);
     
     //Non-member
     template<typename U>
